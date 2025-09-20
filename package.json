@@ -1,0 +1,16 @@
+{
+  "name": "team-task-board",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Monorepo workspace for the Team Task Board platform",
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test"
+  },
+  "packageManager": "pnpm@8.15.4",
+  "engines": {
+    "node": ">=18.17.0"
+  }
+}

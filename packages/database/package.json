@@ -1,0 +1,11 @@
+{
+  "name": "@team-task-board/database",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "prisma generate",
+    "migrate": "prisma migrate dev",
+    "seed": "tsx prisma/seed/index.ts"
+  }
+}
