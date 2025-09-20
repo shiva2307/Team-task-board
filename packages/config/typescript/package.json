@@ -1,9 +1,0 @@
-{
-  "name": "@team-task-board/config-typescript",
-  "version": "0.0.0",
-  "type": "module",
-  "main": "tsconfig.json",
-  "peerDependencies": {
-    "typescript": ">=5.4.0"
-  }
-}

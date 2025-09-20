@@ -1,9 +1,0 @@
-{
-  "name": "@team-task-board/config-tailwind",
-  "version": "0.0.0",
-  "type": "module",
-  "main": "tailwind.config.js",
-  "peerDependencies": {
-    "tailwindcss": ">=3.4.0"
-  }
-}
