@@ -7,5 +7,14 @@
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
     "seed": "tsx prisma/seed/index.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "prisma": "^5.16.1",
+    "tsx": "^4.9.3",
+    "typescript": "^5.4.5"
   }
 }
