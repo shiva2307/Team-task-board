@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: team-task-board-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ttb
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ttb-mysql-data:/var/lib/mysql
+
+volumes:
+  ttb-mysql-data:
+    driver: local
