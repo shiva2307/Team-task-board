@@ -4,14 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "generate": "prisma generate",
-    "migrate": "prisma migrate dev",
+    "generate": "prisma generate --schema prisma/schema.prisma",
+    "migrate": "prisma migrate dev --schema prisma/schema.prisma",
+    "studio": "prisma studio --schema prisma/schema.prisma",
     "seed": "tsx prisma/seed/index.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.16.1"
   },
   "devDependencies": {
+    "@team-task-board/config-eslint": "workspace:*",
+    "@team-task-board/config-typescript": "workspace:*",
     "dotenv": "^16.4.5",
     "prisma": "^5.16.1",
     "tsx": "^4.9.3",

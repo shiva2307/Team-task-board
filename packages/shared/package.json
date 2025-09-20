@@ -11,6 +11,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@team-task-board/config-eslint": "workspace:*",
+    "@team-task-board/config-typescript": "workspace:*",
     "typescript": "^5.4.5"
   }
 }
