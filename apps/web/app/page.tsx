@@ -1,4 +1,26 @@
+import type { CSSProperties } from 'react';
 import { auth, signIn, signOut } from '../auth';
+
+const inputStyle: CSSProperties = {
+  display: 'block',
+  marginBottom: 12,
+  padding: '8px 12px',
+  borderRadius: 4,
+  border: '1px solid #ccc',
+  fontSize: 16,
+  width: '100%',
+  maxWidth: 320
+};
+
+const buttonStyle: CSSProperties = {
+  padding: '8px 16px',
+  borderRadius: 4,
+  border: 'none',
+  backgroundColor: '#2563eb',
+  color: '#fff',
+  fontSize: 16,
+  cursor: 'pointer'
+};
 
 export default async function Page() {
   const session = await auth();
@@ -15,20 +37,39 @@ export default async function Page() {
               await signOut();
             }}
           >
-            <button type="submit">Sign out</button>
+            <button type="submit" style={buttonStyle}>
+              Sign out
+            </button>
           </form>
         </>
       ) : (
         <>
           <h1>Welcome</h1>
-          <p>Sign in to access your Team Task Board workspace.</p>
+          <p>Enter any email and password to explore the Team Task Board demo.</p>
           <form
-            action={async () => {
+            action={async (formData) => {
               'use server';
-              await signIn('github');
+              await signIn('credentials', formData);
             }}
+            style={{ maxWidth: 320 }}
           >
-            <button type="submit">Sign in with GitHub</button>
+            <input
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              required
+              style={inputStyle}
+            />
+            <input
+              name="password"
+              type="password"
+              placeholder="Enter any password"
+              required
+              style={inputStyle}
+            />
+            <button type="submit" style={buttonStyle}>
+              Sign in
+            </button>
           </form>
         </>
       )}
