@@ -4,9 +4,15 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
+import { verify, type JwtPayload } from 'jsonwebtoken';
 
 import { typeDefs } from './schema.js';
 import { resolvers } from './resolvers.js';
+
+type AuthenticatedUser = {
+  id?: string;
+  email?: string;
+};
 
 async function bootstrap(): Promise<void> {
   const app = express();
@@ -30,10 +36,37 @@ async function bootstrap(): Promise<void> {
   app.use(
     '/graphql',
     expressMiddleware(server, {
-      context: async () => ({
-        user: null,
-        requireAuth: () => {}
-      })
+      context: async ({ req }) => {
+        const authHeader = req.headers.authorization;
+        const secret = process.env.JWT_SECRET ?? 'devjwtsecret';
+        let user: AuthenticatedUser | null = null;
+
+        if (typeof authHeader === 'string' && authHeader.startsWith('Bearer ')) {
+          const token = authHeader.slice('Bearer '.length).trim();
+
+          try {
+            const decoded = verify(token, secret) as JwtPayload | string;
+
+            if (decoded && typeof decoded === 'object') {
+              user = {
+                id: typeof decoded.sub === 'string' ? decoded.sub : undefined,
+                email: typeof decoded.email === 'string' ? decoded.email : undefined
+              };
+            }
+          } catch (error) {
+            console.warn('Failed to verify JWT:', error);
+          }
+        }
+
+        return {
+          user,
+          requireAuth: () => {
+            if (!user) {
+              throw new Error('Unauthorized');
+            }
+          }
+        };
+      }
     })
   );
 

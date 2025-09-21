@@ -8,6 +8,10 @@ const taskInclude = {
 
 type GraphQLStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';
 
+type ResolverContext = {
+  requireAuth: () => void;
+};
+
 const getProjectByKey = async (projectKey: string) => {
   return prisma.project.findUnique({
     where: { key: projectKey }
@@ -35,8 +39,11 @@ export const resolvers = {
   Mutation: {
     addTask: async (
       _parent: unknown,
-      args: { projectKey: string; title: string }
+      args: { projectKey: string; title: string },
+      ctx: ResolverContext
     ) => {
+      ctx.requireAuth();
+
       const project = await getProjectByKey(args.projectKey);
       if (!project) {
         throw new Error(`Project with key ${args.projectKey} not found`);
@@ -64,8 +71,11 @@ export const resolvers = {
     },
     moveTask: async (
       _parent: unknown,
-      args: { taskId: string; status: GraphQLStatus; orderIndex: number }
+      args: { taskId: string; status: GraphQLStatus; orderIndex: number },
+      ctx: ResolverContext
     ) => {
+      ctx.requireAuth();
+
       const task = await prisma.task.update({
         where: { id: args.taskId },
         data: {
@@ -84,8 +94,11 @@ export const resolvers = {
         title?: string | null;
         description?: string | null;
         dueDate?: string | null;
-      }
+      },
+      ctx: ResolverContext
     ) => {
+      ctx.requireAuth();
+
       const data: Record<string, unknown> = {};
 
       if (args.title !== undefined) {
@@ -108,7 +121,13 @@ export const resolvers = {
 
       return task;
     },
-    deleteTask: async (_parent: unknown, args: { taskId: string }) => {
+    deleteTask: async (
+      _parent: unknown,
+      args: { taskId: string },
+      ctx: ResolverContext
+    ) => {
+      ctx.requireAuth();
+
       const existing = await prisma.task.findUnique({
         where: { id: args.taskId }
       });
