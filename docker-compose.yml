@@ -1,9 +1,8 @@
-version: '3.9'
-
 services:
   db:
     image: mysql:8.0
-    container_name: team-task-board-db
+    container_name: ttb-mysql
+    command: ["--default-authentication-plugin=mysql_native_password"]
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
