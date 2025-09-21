@@ -1,7 +1,9 @@
 node_modules
 build
 .env
+.env.*
 .next
 dist
 coverage
+.DS_Store
 .turbo

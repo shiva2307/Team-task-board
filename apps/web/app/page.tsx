@@ -49,7 +49,20 @@ export default async function Page() {
           <form
             action={async (formData) => {
               'use server';
-              await signIn('credentials', formData);
+
+              const email = formData.get('email');
+              const password = formData.get('password');
+
+              if (typeof email !== 'string' || typeof password !== 'string') {
+                console.warn('Missing email or password in credentials sign-in');
+                return;
+              }
+
+              await signIn('credentials', {
+                email,
+                password,
+                redirectTo: '/'
+              });
             }}
             style={{ maxWidth: 320 }}
           >
