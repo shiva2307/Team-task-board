@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  next-auth@5.0.0-beta.29:
+    hash: bezir5i2w7iiauqlrmmfynexsq
+    path: patches/next-auth@5.0.0-beta.29.patch
+
 importers:
 
   .:
@@ -21,7 +26,7 @@ importers:
         specifier: ^3.3.3
         version: 3.6.2
       tsx:
-        specifier: ^4.19.0
+        specifier: ^4.20.5
         version: 4.20.5
       turbo:
         specifier: ^2.5.6
@@ -69,6 +74,9 @@ importers:
       '@types/jsonwebtoken':
         specifier: ^9.0.5
         version: 9.0.10
+      tsx:
+        specifier: ^4.20.5
+        version: 4.20.5
 
   apps/web:
     dependencies:
@@ -94,8 +102,8 @@ importers:
         specifier: ^14.2.5
         version: 14.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-auth:
-        specifier: ^5.0.0-beta.29
-        version: 5.0.0-beta.29(next@14.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        specifier: 5.0.0-beta.29
+        version: 5.0.0-beta.29(patch_hash=bezir5i2w7iiauqlrmmfynexsq)(next@14.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -2752,7 +2760,7 @@ snapshots:
 
   negotiator@0.6.4: {}
 
-  next-auth@5.0.0-beta.29(next@14.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
+  next-auth@5.0.0-beta.29(patch_hash=bezir5i2w7iiauqlrmmfynexsq)(next@14.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
     dependencies:
       '@auth/core': 0.40.0
       next: 14.2.32(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

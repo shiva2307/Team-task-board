@@ -1,0 +1,158 @@
+diff --git a/index.d.ts b/index.d.ts
+index d00cbf22661a697dd5e38fac14fe5aa2070db26f..c7345ed92f92010e8604afbc3f92ceafafae9c0c 100644
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -71,7 +71,7 @@ import type { Awaitable, Session } from "@auth/core/types";
+ import type { ProviderId } from "@auth/core/providers";
+ import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
+ import type { AppRouteHandlerFn, AppRouteHandlerFnContext } from "./lib/types.js";
+-import type { NextRequest, NextMiddleware } from "next/server";
++import type { NextRequest, NextMiddleware } from "next/server.js";
+ import type { NextAuthConfig, NextAuthRequest, NextAuthMiddleware } from "./lib/index.js";
+ export { AuthError, CredentialsSignin } from "@auth/core/errors";
+ export { customFetch };
+diff --git a/lib/actions.js b/lib/actions.js
+index aaddb37c357984eeafddae8d37b5560cd7094123..0d3301853bea4f90ff4409d263596bddc6d75d9c 100644
+--- a/lib/actions.js
++++ b/lib/actions.js
+@@ -1,6 +1,6 @@
+ import { Auth, raw, skipCSRFCheck, createActionURL } from "@auth/core";
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+-import { headers as nextHeaders, cookies } from "next/headers";
++import { headers as nextHeaders, cookies } from "next/headers.js";
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+ import { redirect } from "next/navigation";
+ export async function signIn(provider, options = {}, authorizationParams, config) {
+diff --git a/lib/env.d.ts b/lib/env.d.ts
+index cab3a4f7ea478f6f0605923e6ea775b6afd73546..c1766a8833e62167b7d471ace8a10383ca08f496 100644
+--- a/lib/env.d.ts
++++ b/lib/env.d.ts
+@@ -1,4 +1,4 @@
+-import { NextRequest } from "next/server";
++import { NextRequest } from "next/server.js";
+ import type { NextAuthConfig } from "./index.js";
+ /** If `NEXTAUTH_URL` or `AUTH_URL` is defined, override the request's URL. */
+ export declare function reqWithEnvURL(req: NextRequest): NextRequest;
+diff --git a/lib/env.js b/lib/env.js
+index 86672911290a116ab5ee6d79029b066b7ac0d5c2..baad1cced544843e0be8080487d9de5356b63e33 100644
+--- a/lib/env.js
++++ b/lib/env.js
+@@ -1,5 +1,5 @@
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+-import { NextRequest } from "next/server";
++import { NextRequest } from "next/server.js";
+ import { setEnvDefaults as coreSetEnvDefaults } from "@auth/core";
+ /** If `NEXTAUTH_URL` or `AUTH_URL` is defined, override the request's URL. */
+ export function reqWithEnvURL(req) {
+diff --git a/lib/index.d.ts b/lib/index.d.ts
+index babfbe11860062f37408f591b57659dd19b9952c..21373a158d8e5d01d90794e408b17ef67e52ea96 100644
+--- a/lib/index.d.ts
++++ b/lib/index.d.ts
+@@ -1,9 +1,9 @@
+ import { type AuthConfig } from "@auth/core";
+-import { NextResponse } from "next/server";
++import { NextResponse } from "next/server.js";
+ import type { Awaitable, Session } from "@auth/core/types";
+ import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
+ import type { AppRouteHandlerFn } from "./types.js";
+-import type { NextFetchEvent, NextMiddleware, NextRequest } from "next/server";
++import type { NextFetchEvent, NextMiddleware, NextRequest } from "next/server.js";
+ /** Configure NextAuth.js. */
+ export interface NextAuthConfig extends Omit<AuthConfig, "raw"> {
+     /**
+diff --git a/lib/index.js b/lib/index.js
+index a65754e429f5da4f3ff7689808bb620d5967eea1..7d4879f0102b8cf26e23637ba993847499cf34c1 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -1,8 +1,8 @@
+ import { Auth, createActionURL } from "@auth/core";
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+-import { headers } from "next/headers";
++import { headers } from "next/headers.js";
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+-import { NextResponse } from "next/server";
++import { NextResponse } from "next/server.js";
+ import { reqWithEnvURL } from "./env.js";
+ async function getSession(headers, config) {
+     const url = createActionURL("session", 
+diff --git a/lib/types.d.ts b/lib/types.d.ts
+index 78f760605be5f6fd43c91efbe3d266fd1e0234d0..c068f5551b5bdb89042864e5ca48c0a06dee0be9 100644
+--- a/lib/types.d.ts
++++ b/lib/types.d.ts
+@@ -1,4 +1,4 @@
+-import type { NextRequest } from "next/server";
++import type { NextRequest } from "next/server.js";
+ /**
+  * AppRouteHandlerFnContext is the context that is passed to the handler as the
+  * second argument.
+diff --git a/src/index.ts b/src/index.ts
+index 8140ef08975615133b898280b3dd6d05e1dd27cc..449a7929466166b037df19dd1ea5b6a06088ae4d 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -84,7 +84,7 @@ import type {
+   AppRouteHandlerFnContext,
+ } from "./lib/types.js"
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+-import type { NextRequest, NextMiddleware } from "next/server"
++import type { NextRequest, NextMiddleware } from "next/server.js"
+ import type {
+   NextAuthConfig,
+   NextAuthRequest,
+diff --git a/src/lib/actions.ts b/src/lib/actions.ts
+index 80081fa2e0603c0317ee7d9ea599d31e731e6b4d..4bead1cc335bc91d691397e6b84761f71d157179 100644
+--- a/src/lib/actions.ts
++++ b/src/lib/actions.ts
+@@ -1,6 +1,6 @@
+ import { Auth, raw, skipCSRFCheck, createActionURL } from "@auth/core"
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+-import { headers as nextHeaders, cookies } from "next/headers"
++import { headers as nextHeaders, cookies } from "next/headers.js"
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+ import { redirect } from "next/navigation"
+ 
+diff --git a/src/lib/env.ts b/src/lib/env.ts
+index 27615af273e8dbe85fa6a2de51fb6d0774b8c971..62dfdfee49879a1da452764e587f26a7fcb0468b 100644
+--- a/src/lib/env.ts
++++ b/src/lib/env.ts
+@@ -1,5 +1,5 @@
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+-import { NextRequest } from "next/server"
++import { NextRequest } from "next/server.js"
+ import type { NextAuthConfig } from "./index.js"
+ import { setEnvDefaults as coreSetEnvDefaults } from "@auth/core"
+ 
+diff --git a/src/lib/index.ts b/src/lib/index.ts
+index 2223cdeaa3703e6a3cd5faee78d95af046526a75..a2317e19a9b6ac45b6c648b987583179e8736417 100644
+--- a/src/lib/index.ts
++++ b/src/lib/index.ts
+@@ -1,8 +1,8 @@
+ import { Auth, createActionURL, type AuthConfig } from "@auth/core"
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+-import { headers } from "next/headers"
++import { headers } from "next/headers.js"
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+-import { NextResponse } from "next/server"
++import { NextResponse } from "next/server.js"
+ import { reqWithEnvURL } from "./env.js"
+ 
+ import type { AuthAction, Awaitable, Session } from "@auth/core/types"
+@@ -13,7 +13,7 @@ import type {
+ } from "next"
+ import type { AppRouteHandlerFn } from "./types.js"
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+-import type { NextFetchEvent, NextMiddleware, NextRequest } from "next/server"
++import type { NextFetchEvent, NextMiddleware, NextRequest } from "next/server.js"
+ 
+ /** Configure NextAuth.js. */
+ export interface NextAuthConfig extends Omit<AuthConfig, "raw"> {
+diff --git a/src/lib/types.ts b/src/lib/types.ts
+index f0010e710a441fa81f4ec6403de5af7a9410bc41..29f0dc9993c0731112379d0010049d00775401ca 100644
+--- a/src/lib/types.ts
++++ b/src/lib/types.ts
+@@ -1,5 +1,5 @@
+ // @ts-expect-error Next.js does not yet correctly use the `package.json#exports` field
+-import type { NextRequest } from "next/server"
++import type { NextRequest } from "next/server.js"
+ 
+ /**
+  * AppRouteHandlerFnContext is the context that is passed to the handler as the

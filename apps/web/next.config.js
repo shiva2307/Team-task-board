@@ -1,10 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverActions: {
-      allowedOrigins: ['localhost:3000']
-    }
-  }
+  transpilePackages: ['next-auth'],
 };
 
 module.exports = nextConfig;
