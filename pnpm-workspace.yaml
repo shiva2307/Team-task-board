@@ -1,0 +1,4 @@
+# team-task-board/pnpm-workspace.yaml
+packages:
+  - 'apps/*'
+  - 'packages/*'
